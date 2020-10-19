@@ -1,3 +1,9 @@
+async function getDevices() {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  console.log(devices)
+}
+
+console.log(cameraOptions)
 class App extends React.Component {
   // reference to both the video and canvas
   videoRef = React.createRef();
@@ -58,6 +64,8 @@ class App extends React.Component {
 
   componentDidMount() {
     if (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia) {
+      console.log( navigator.mediaDevices.getUserMedia )
+      getDevices();
       // define a Promise that'll be used to load the webcam and read its frames
       const webcamPromise = navigator.mediaDevices
         .getUserMedia({
@@ -69,6 +77,7 @@ class App extends React.Component {
           window.stream = stream;
           // pass the stream to the videoRef
           this.videoRef.current.srcObject = stream;
+          console.log(stream)
 
           return new Promise(resolve => {
             this.videoRef.current.onloadedmetadata = () => {
@@ -113,6 +122,6 @@ class App extends React.Component {
     );
   }
 }
-
+const cameraOptions = document.querySelector('.video-options>select');
 const domContainer = document.querySelector('#root');
 ReactDOM.render(React.createElement(App), domContainer);
